@@ -15,6 +15,12 @@ This guide details the deployment process for a Kubernetes cluster on Google Clo
 
 ## Step-by-Step Deployment
 
+### 0. Ensure you are in the correct directory: ./k8s.
+
+   ```bash
+   cd ./k8s
+   ```
+
 ### 1. Configure GCP Project
 
 1. Check the current GCP project configuration:
