@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kanban-board
+  labels:
+    app: kanban-board
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: kanban-board
+  template:
+    metadata:
+      labels:
+        app: kanban-board
+    spec:
+      containers:
+      - name: kanban-board
+        image: cotsezer/kanban-board:0.0.1
+        ports:
+        - containerPort: 3000 
+        resources:
+          requests:
+            cpu: 500m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 512Mi

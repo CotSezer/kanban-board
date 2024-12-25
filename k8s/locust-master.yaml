@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: locust-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: locust-master
+  template:
+    metadata:
+      labels:
+        app: locust-master
+    spec:
+      containers:
+      - name: locust-master
+        image: locustio/locust
+        args: ["-f", "/mnt/locust/locustfile.py", "--master", "--host", "http://34.135.145.172"]
+        ports:
+        - containerPort: 8089
+        volumeMounts:
+        - name: locustfile
+          mountPath: /mnt/locust
+      volumes:
+      - name: locustfile
+        configMap:
+          name: locustfile-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: locust-master
+spec:
+  type: LoadBalancer
+  selector:
+    app: locust-master
+  ports:
+    - name: web-ui     
+      protocol: TCP
+      port: 8089
+      targetPort: 8089
+
+    - name: worker-comm     
+      protocol: TCP
+      port: 5557           # Worker communication port
+      targetPort: 5557
